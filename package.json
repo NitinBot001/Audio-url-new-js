@@ -4,8 +4,8 @@
   "description": "An Express server to fetch and download YouTube audio using Playwright and Axios",
   "main": "server.js",
   "scripts": {
-  "postinstall": "npx playwright install && npx playwright install-deps",
-  "test": "node server.js"
+  "postinstall": "npx playwright install",
+  "test": "node server.js && npx playwright install"
   },
   "dependencies": {
     "axios": "^1.6.0",
