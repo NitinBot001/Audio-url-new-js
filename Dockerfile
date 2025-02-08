@@ -1,30 +1,27 @@
-FROM node:18-slim
+# Use the official Python image as a base
+FROM python:3.10-slim
 
-# Install system dependencies for Playwright
-RUN apt-get update && apt-get install -y \
-    libnss3 \
-    libatk1.0-0 \
-    libx11-xcb1 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxfixes3 \
-    libxrandr2 \
-    libgbm1 \
-    libasound2 \
-    libpangocairo-1.0-0 \
-    libpango-1.0-0 \
-    libcairo2 \
-    libharfbuzz0b \
-    libgdk-pixbuf2.0-0 \
-    libegl1
-
-# Install Node.js dependencies
+# Set the working directory in the container
 WORKDIR /app
-COPY package.json ./
-RUN npm install
-RUN npx playwright install
 
-# Copy application files
+# Copy the requirements file into the container
+COPY requirements.txt requirements.txt
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install Playwright and required browser dependencies
+RUN apt-get update && apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get install -y libnss3 libatk-bridge2.0-0 libxcomposite1 libxrandr2 libgbm1 libasound2 libpangocairo-1.0-0 && \
+    python -m playwright install --with-deps chromium
+
+# Copy the application files into the container
 COPY . .
 
-CMD ["node", "server.js"]
+# Expose the application port
+EXPOSE 3000
+
+# Define the command to run the application
+CMD ["python", "app.py"]
