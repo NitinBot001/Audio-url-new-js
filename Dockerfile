@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY package.json ./
 RUN npm install
-RUN npx playwright install chromium
+RUN npx playwright install
 
 # Copy application files
 COPY . .
