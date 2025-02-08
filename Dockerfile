@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
 
 # Install Node.js dependencies
 WORKDIR /app
-COPY package.json package-lock.json ./
+COPY package.json ./
 RUN npm install
 RUN npx playwright install chromium
 
