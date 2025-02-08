@@ -17,7 +17,7 @@ async function ensureBrowserInstalled() {
         console.log("Playwright browser not found. Installing...");
         try {
             // Install necessary dependencies
-            execSync('npx playwright install chromium', { stdio: 'inherit' });
+            execSync('npx playwright install --with-deps chromium', { stdio: 'inherit' });
             console.log("Playwright browser installed successfully.");
         } catch (installError) {
             console.error("Failed to install Playwright browser:", installError);
